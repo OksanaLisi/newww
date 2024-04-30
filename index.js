@@ -1,35 +1,25 @@
-const express = require('express');
-const mongoose = require('mongoose');
-require("dotenv").config();
-const cors = require('cors');
-const app = express();
-const PORT = process.env.PORT || 5000;
+const express = require('express')
+const mongoose = require('mongoose')
+require("dotenv").config()
+const cors = require('cors')
+const app = express()
+const PORT = process.env.PORT || 5000
+app.use(cors())
 
-// Set up CORS with specific origin
-const corsOptions = {
-  origin: 'https://663139409a01dd0563e98329--melodious-crepe-eea9d2.netlify.app',
-};
+app.use(express.json({extended: true}))
 
-app.use(cors(corsOptions));
-app.use(express.json({ extended: true }));
-
-app.use('/api/auth', require('./routes/auth.route'));
-app.use('/api/todo', require('./routes/todo.route'));
+app.use('/api/auth', require('./routes/auth.route'))
+app.use('/api/todo', require('./routes/todo.route'))
 
 async function start() {
-  try {
-    await mongoose.connect(process.env.MONGODB_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    try {
+        await mongoose.connect('mongodb+srv://zeyaroslav:newpass123@ppc1.769ih6s.mongodb.net/?retryWrites=true&w=majority&appName=PPC1')
 
-    app.listen(PORT, () => {
-      console.log(`Server started on port ${PORT}`);
-    });
+        app.listen(PORT, () => {
+            console.log(`Server started on port ${PORT}`)
+        })
 
-  } catch (err) {
-    console.error(err);
-  }
-}
+    } catch (err) {console.error(err)}
+} 
 
-start();
+start()
