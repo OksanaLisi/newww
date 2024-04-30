@@ -48,42 +48,41 @@ router.post('/login',
     check('email', 'Uncorrect email').isEmail(),
     check('password', 'Uncorrect pass').exists()
 ],
-async (req, res) => {
+    async (req, res) => {
     try {
         const errors = validationResult(req)
-        if (!errors.isEmpty()) {
+        if(!errors.isEmpty()){
             return res.status(400).json({
                 errors: errors.array(),
                 message: 'Uncorrect data in registration'
             })
         }
 
-        const { email, password } = req.body
+        const {email, password} = req.body
 
-        const user = await User.findOne({ email })
+        const user = await User.findOne({email})
 
-        if (!user) {
-            return res.status(400).json({ message: 'No user found' })
+        if(!user){
+            return res.status(400).json({message: 'no user'})
         }
+        const isMatch = bcrypt.compare(password, user.password)
 
-        const isMatch = await bcrypt.compare(password, user.password)
-
-        if (!isMatch) {
-            return res.status(400).json({ message: 'Password does not match' })
+        if(!isMatch){
+            return res.status(400).json({message:'Pass not match'})
         }
-
-        const jwtSecret = 'something' // Replace this with your actual JWT secret
+        const jwtSecret = 'something'
 
         const token = jwt.sign(
-            { userId: user.id }, 
+            {userId: user.id}, 
             jwtSecret,
-            { expiresIn: '1h' }
+            {expiresIn: '1h'}
         )
+        
+        res.json({token, userId: user.id})
 
-        res.json({ token, userId: user.id })
     } catch (error) {
         console.log(error)
-        res.status(500).send('Server Error')
     }
 })
+
 module.exports = router
