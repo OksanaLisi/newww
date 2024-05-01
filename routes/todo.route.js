@@ -16,7 +16,8 @@ router.post('/add', async (req, res) => {
 
         res.json(todo)
     } catch (error) {
-        console.log(error)        
+        console.log(error)  
+        res.json(error)      
     }
 })
 
@@ -30,6 +31,7 @@ router.get('/', async (req, res) => {
         res.json(todo)
     } catch (error) {
         console.log(error)
+        res.json(error)  
     }
 })
 
@@ -39,6 +41,7 @@ router.delete('/delete/:id', async (req, res) => {
         res.json(todo)
     } catch (error) {
         console.log(error)
+        res.json(error)  
     }
 })
 
