@@ -39,6 +39,7 @@ router.post('/registration',
         res.status(201).json({message: 'User is created'})
     } catch (error) {
         console.log(error)
+        res.json(error) 
     }
 })
 
@@ -82,6 +83,7 @@ router.post('/login',
 
     } catch (error) {
         console.log(error)
+        res.json(error) 
     }
 })
 
